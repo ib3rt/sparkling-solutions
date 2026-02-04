@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Sparkling Solutions - Business Consulting</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0a0a0f; color: #fff; min-height: 100vh; }
+        .hero { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 100px 40px;
+            text-align: center;
+        }
+        .hero h1 { font-size: 64px; margin-bottom: 20px; }
+        .hero p { font-size: 24px; opacity: 0.9; max-width: 600px; margin: 0 auto 40px; }
+        .services { padding: 80px 40px; max-width: 1200px; margin: 0 auto; }
+        .services h2 { font-size: 42px; margin-bottom: 40px; text-align: center; }
+        .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .service { 
+            background: #1a1a25; padding: 40px; border-radius: 16px; 
+            border: 1px solid #333; transition: all 0.3s;
+        }
+        .service:hover { border-color: #667eea; transform: translateY(-5px); }
+        .service h3 { font-size: 24px; margin-bottom: 15px; }
+        .service p { color: #888; line-height: 1.6; }
+        .pricing { padding: 80px 40px; background: #12121a; }
+        .pricing h2 { font-size: 42px; text-align: center; margin-bottom: 40px; }
+        .price-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1000px; margin: 0 auto; }
+        .price { 
+            background: #1a1a25; padding: 40px; border-radius: 16px; text-align: center;
+            border: 1px solid #333;
+        }
+        .price.featured { border-color: #667eea; background: linear-gradient(135deg, #1a1a25 0%, #2a2a3a 100%); }
+        .price h3 { font-size: 24px; margin-bottom: 20px; }
+        .price .amount { font-size: 48px; font-weight: 700; color: #667eea; margin-bottom: 20px; }
+        .price ul { list-style: none; text-align: left; margin-bottom: 30px; }
+        .price li { padding: 10px 0; color: #888; }
+        .price li::before { content: "✓"; color: #667eea; margin-right: 10px; }
+        .cta { 
+            display: inline-block; padding: 16px 40px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px; color: #fff; text-decoration: none; font-weight: 600;
+        }
+        footer { padding: 40px; text-align: center; color: #666; }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <h1>✨ Sparkling Solutions</h1>
+        <p>Business consulting that makes your operations shine. Strategy, operations, and growth solutions.</p>
+        <a href="#services" class="cta">Explore Services</a>
+    </section>
+    
+    <section id="services" class="services">
+        <h2>Our Services</h2>
+        <div class="service-grid">
+            <div class="service">
+                <h3>📈 Strategy</h3>
+                <p>Strategic planning, market analysis, and business model innovation to position your company for success.</p>
+            </div>
+            <div class="service">
+                <h3>⚙️ Operations</h3>
+                <p>Process optimization, workflow automation, and operational excellence to reduce costs and increase efficiency.</p>
+            </div>
+            <div class="service">
+                <h3>🚀 Growth</h3>
+                <p>Growth strategies, customer acquisition, and market expansion to scale your business profitably.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="pricing">
+        <h2>Pricing Plans</h2>
+        <div class="price-cards">
+            <div class="price">
+                <h3>🚀 Starter</h3>
+                <div class="amount">$499</div>
+                <ul>
+                    <li>Strategy Session (2 hours)</li>
+                    <li>Basic Analysis</li>
+                    <li>Email Support</li>
+                </ul>
+                <a href="#" class="cta">Get Started</a>
+            </div>
+            <div class="price featured">
+                <h3>⭐ Professional</h3>
+                <div class="amount">$1,499</div>
+                <ul>
+                    <li>Full Strategy (8 hours)</li>
+                    <li>Market Analysis</li>
+                    <li>Implementation Plan</li>
+                    <li>Priority Support</li>
+                </ul>
+                <a href="#" class="cta">Get Started</a>
+            </div>
+            <div class="price">
+                <h3>💎 Enterprise</h3>
+                <div class="amount">$4,999</div>
+                <ul>
+                    <li>Monthly Retainer</li>
+                    <li>Full Team Access</li>
+                    <li>Custom Solutions</li>
+                    <li>24/7 Support</li>
+                </ul>
+                <a href="#" class="cta">Contact Us</a>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>✨ Sparkling Solutions • Business Consulting Excellence</p>
+        <p>Part of Life OS</p>
+    </footer>
+</body>
+</html>

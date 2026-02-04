@@ -1,0 +1,1 @@
+{"version":2,"name":"sparkling-solutions","builds":[{"src":"*.html","use":"@vercel/static"}]}
