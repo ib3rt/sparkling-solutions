@@ -4,304 +4,219 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>✨ Sparkling Solutions - Airbnb Cleaning Specialists</title>
+    <meta name="description" content="Professional Airbnb cleaning services. Book online, track cleanings, and enjoy sparkling spaces.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/design-system.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
-            background: #0a0a0f; 
-            color: #fff; 
-            min-height: 100vh;
-            line-height: 1.6;
+        /* Hero Override */
+        .hero {
+            padding: var(--space-3xl) 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
         }
-        .hero { 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 80px 40px;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: var(--space-lg);
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, #ffffff 0%, #d1fae5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto var(--space-xl);
+            opacity: 0.95;
+        }
+        /* Features */
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: var(--space-xl);
+            text-align: center;
+            transition: all var(--ease-normal);
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
+        }
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-md);
+        }
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: var(--space-sm);
+        }
+        .feature-card p {
+            color: var(--text-secondary);
+        }
+        /* Services */
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: var(--space-xl);
+            transition: all var(--ease-normal);
+        }
+        .service-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+        .service-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: var(--space-sm);
+            color: var(--accent);
+        }
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--accent) 0%, #059669 100%);
+            border-radius: 24px;
+            padding: var(--space-3xl);
             text-align: center;
         }
-        .hero h1 { font-size: 56px; margin-bottom: 16px; }
-        .hero p { font-size: 22px; opacity: 0.95; max-width: 600px; margin: 0 auto 30px; }
-        .subtitle { font-size: 18px; opacity: 0.9; margin-bottom: 30px; }
-        .cta { 
-            display: inline-block; padding: 16px 40px; 
-            background: #fff; color: #667eea;
-            border-radius: 10px; text-decoration: none; font-weight: 700;
-            font-size: 18px;
+        .cta-section h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: var(--space-lg);
         }
-        .section { padding: 80px 40px; max-width: 1200px; margin: 0 auto; }
-        .section h2 { font-size: 42px; margin-bottom: 40px; text-align: center; }
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .feature { 
-            background: #1a1a25; padding: 30px; border-radius: 16px; 
-            border: 1px solid #333; text-align: center;
-        }
-        .feature:hover { border-color: #667eea; transform: translateY(-5px); transition: 0.3s; }
-        .feature .icon { font-size: 48px; margin-bottom: 20px; }
-        .feature h3 { font-size: 22px; margin-bottom: 12px; }
-        .feature p { color: #888; font-size: 15px; }
-        .pricing { 
-            background: #12121a; padding: 80px 40px; 
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1100px; margin: 0 auto;
-        }
-        .price { 
-            background: #1a1a25; padding: 40px; border-radius: 16px; 
-            text-align: center; border: 1px solid #333;
-        }
-        .price.featured { border-color: #667eea; background: linear-gradient(135deg, #1a1a25 0%, #2a2a3a 100%); }
-        .price h3 { font-size: 24px; margin-bottom: 15px; }
-        .price .amount { font-size: 42px; font-weight: 700; color: #667eea; margin-bottom: 10px; }
-        .price .period { color: #666; font-size: 14px; margin-bottom: 25px; }
-        .price ul { list-style: none; margin-bottom: 30px; text-align: left; }
-        .price li { padding: 10px 0; color: #888; border-bottom: 1px solid #252530; }
-        .price li::before { content: "✓"; color: #667eea; margin-right: 10px; }
-        .how-it-works { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-        .step { text-align: center; padding: 20px; }
-        .step .number { 
-            width: 60px; height: 60px; background: #667eea; color: #fff;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 24px; font-weight: 700; margin: 0 auto 20px;
-        }
-        .step h4 { font-size: 18px; margin-bottom: 10px; }
-        .step p { font-size: 14px; color: #888; }
-        .testimonials { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
-        .testimonial { 
-            background: #1a1a25; padding: 30px; border-radius: 16px; 
-            border: 1px solid #333;
-        }
-        .testimonial .stars { color: #FFD700; font-size: 20px; margin-bottom: 15px; }
-        .testimonial p { font-style: italic; color: #ccc; margin-bottom: 20px; }
-        .testimonial .author { color: #667eea; font-weight: 600; }
-        .host-dashboard { 
-            background: linear-gradient(135deg, #1a1a25 0%, #252535 100%); 
-            padding: 60px; border-radius: 20px; text-align: center;
-        }
-        .dashboard-preview { 
-            background: #0a0a0f; padding: 40px; border-radius: 12px; 
-            margin: 40px 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
-        }
-        .dash-stat h4 { font-size: 32px; color: #667eea; margin-bottom: 5px; }
-        .dash-stat p { font-size: 14px; color: #888; }
-        .contact { background: #12121a; padding: 80px 40px; text-align: center; }
-        .contact h2 { font-size: 42px; margin-bottom: 20px; }
-        .contact p { color: #888; max-width: 600px; margin: 0 auto 40px; font-size: 18px; }
-        .contact-form { max-width: 500px; margin: 0 auto; display: grid; gap: 20px; }
-        .contact-form input, .contact-form textarea, .contact-form select {
-            width: 100%; padding: 16px 20px; border-radius: 10px;
-            background: #1a1a25; border: 1px solid #333; color: #fff;
-            font-size: 16px;
-        }
-        .contact-form textarea { min-height: 120px; resize: vertical; }
-        .contact-form button { 
-            padding: 16px 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none; border-radius: 10px; color: #fff; font-size: 18px; font-weight: 600;
-            cursor: pointer;
-        }
-        footer { padding: 40px; text-align: center; color: #666; }
-        .stats { 
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; 
-            padding: 60px 40px; background: #12121a;
-        }
-        .stat { text-align: center; }
-        .stat h3 { font-size: 48px; color: #667eea; margin-bottom: 10px; }
-        .stat p { color: #888; font-size: 16px; }
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 36px; }
-            .pricing { grid-template-columns: 1fr; }
-            .how-it-works { grid-template-columns: 1fr; }
-            .stats { grid-template-columns: repeat(2, 1fr); }
-            .dashboard-preview { grid-template-columns: repeat(2, 1fr); }
+        .cta-section p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto var(--space-xl);
+            opacity: 0.95;
         }
     </style>
 </head>
 <body>
+    <!-- Hero -->
     <section class="hero">
-        <h1>✨ Sparkling Solutions</h1>
-        <p class="subtitle">Airbnb Cleaning Specialists</p>
-        <p>Professional turnover cleaning for vacation rental hosts. Your guests walk into a spotless, fresh space—every single time.</p>
-        <a href="#contact" class="cta">Get Your Free Quote</a>
-    </section>
-    
-    <section class="stats">
-        <div class="stat"><h3>500+</h3><p>Cleanings Completed</p></div>
-        <div class="stat"><h3>98%</h3><p>Guest Satisfaction</p></div>
-        <div class="stat"><h3>4.9★</h3><p>Average Rating</p></div>
-        <div class="stat"><h3>24hr</h3><p>Turnaround Time</p></div>
-    </section>
-    
-    <section class="section">
-        <h2>Why Hosts Choose Us</h2>
-        <div class="features">
-            <div class="feature">
-                <div class="icon">🧹</div>
-                <h3>Turnover Specialists</h3>
-                <p>We know Airbnb turnover requirements—fresh linens, spotless surfaces, guest-ready in hours, not days.</p>
-            </div>
-            <div class="feature">
-                <div class="icon">📱</div>
-                <h3>Host Dashboard</h3>
-                <p>Real-time updates, photo confirmations, and cleaning status notifications sent directly to you.</p>
-            </div>
-            <div class="feature">
-                <div class="icon">✅</div>
-                <h3>Quality Guarantee</h3>
-                <p>100% satisfaction guarantee. If anything's missed, we return within 4 hours—free of charge.</p>
-            </div>
-            <div class="feature">
-                <div class="icon">📋</div>
-                <h3>Custom Checklists</h3>
-                <p>Every cleaning follows your property-specific checklist. No surprises, just sparkling results.</p>
-            </div>
-            <div class="feature">
-                <div class="icon">🧴</div>
-                <h3>Eco-Friendly Products</h3>
-                <p>Safe, effective cleaning products that protect your guests, your property, and the planet.</p>
-            </div>
-            <div class="feature">
-                <div class="icon">🔑</div>
-                <h3>Flexible Access</h3>
-                <p>Keyless entry, smart locks, or traditional keys—we work with your access system.</p>
+        <div class="container">
+            <a href="/" class="logo">✨ <span class="gradient-text">Sparkling Solutions</span></a>
+            
+            <h1>Airbnb Cleaning <span>Done Right</span></h1>
+            <p>Professional cleaning services for vacation rentals. Book online, track cleanings, and keep your guests happy.</p>
+            
+            <div class="links">
+                <a href="/calendar-secure.html" class="btn btn-primary">📅 Book a Cleaning</a>
+                <a href="#services" class="btn btn-secondary">Our Services</a>
             </div>
         </div>
     </section>
-    
-    <section class="section">
-        <h2>Our Cleaning Process</h2>
-        <div class="how-it-works">
-            <div class="step">
-                <div class="number">1</div>
-                <h4>Book Online</h4>
-                <p>Schedule through our simple booking system. Sync with your calendar automatically.</p>
+
+    <main class="container">
+        <!-- Stats -->
+        <section class="stats">
+            <div class="stat">
+                <h3>500+</h3>
+                <p>Cleanings Done</p>
             </div>
-            <div class="step">
-                <div class="number">2</div>
-                <h4>Guest Check-Out</h4>
-                <p>Guests depart. You receive an instant notification that cleaning has begun.</p>
+            <div class="stat">
+                <h3>4.9⭐</h3>
+                <p>Average Rating</p>
             </div>
-            <div class="step">
-                <div class="number">3</div>
-                <h4>We Clean</h4>
-                <p>Our team arrives, follows your checklist, and leaves your property guest-ready.</p>
+            <div class="stat">
+                <h3>24h</h3>
+                <p>Turnaround</p>
             </div>
-            <div class="step">
-                <div class="number">4</div>
-                <h4>Guest Arrives</h4>
-                <p>Fresh sheets, clean surfaces, sparkling bathroom. Your next guest checks in to perfection.</p>
+            <div class="stat">
+                <h3>100%</h3>
+                <p>Satisfaction</p>
             </div>
-        </div>
-    </section>
-    
-    <section class="pricing">
-        <div class="price">
-            <h3>Studio / 1BR</h3>
-            <div class="amount">$89</div>
-            <div class="per">per turnover</div>
-            <ul>
-                <li>Up to 600 sq ft</li>
-                <li>Full bathroom cleaning</li>
-                <li>Fresh linens & towels</li>
-                <li>Kitchen deep clean</li>
-                <li>Vacuum & mop floors</li>
-                <li>Trash removal</li>
-            </ul>
-        </div>
-        <div class="price featured">
-            <h3>2BR / 2BA</h3>
-            <div class="amount">$129</div>
-            <div class="per">per turnover</div>
-            <ul>
-                <li>Up to 1200 sq ft</li>
-                <li>All bathrooms deep cleaned</li>
-                <li>Fresh linens for all beds</li>
-                <li>Full kitchen cleaning</li>
-                <li>All floors vacuumed/mopped</li>
-                <li>Interior window cleaning</li>
-                <li>Restocking supplies</li>
-            </ul>
-        </div>
-        <div class="price">
-            <h3>3BR+ / Large</h3>
-            <div class="amount">$169+</div>
-            <div class="per">per turnover</div>
-            <ul>
-                <li>1200+ sq ft</li>
-                <li>All bathrooms & kitchens</li>
-                <li>All bedrooms fresh linen</li>
-                <li>Full property deep clean</li>
-                <li>Interior windows</li>
-                <li>Laundry service included</li>
-                <li>Custom pricing available</li>
-            </ul>
-        </div>
-    </section>
-    
-    <section class="section">
-        <h2>Host Dashboard Preview</h2>
-        <div class="host-dashboard">
-            <p>Manage all your properties from one dashboard</p>
-            <div class="dashboard-preview">
-                <div class="dash-stat">
-                    <h4>12</h4>
-                    <p>Upcoming Cleanings</p>
+        </section>
+
+        <!-- Features -->
+        <section id="features">
+            <h2 class="section-title">Why Choose Us?</h2>
+            
+            <div class="cards">
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Easy Online Booking</h3>
+                    <p>Book cleanings in seconds with our secure calendar system. Available 24/7.</p>
                 </div>
-                <div class="dash-stat">
-                    <h4>4.9★</h4>
-                    <p>Average Rating</p>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Secure Access</h3>
+                    <p>Host and cleaner credentials. Check-in/check-out coordination with dual confirmation.</p>
                 </div>
-                <div class="dash-stat">
-                    <h4>98%</h4>
-                    <p>On-Time Rate</p>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Track Everything</h3>
+                    <p>Complete history of cleanings, notes, and property details. Never miss a detail.</p>
                 </div>
-                <div class="dash-stat">
-                    <h4>$1,290</h4>
-                    <p>Monthly Spend</p>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3>Premium Quality</h3>
+                    <p>Thorough cleaning every time. Guest-ready spaces guaranteed or we re-clean free.</p>
                 </div>
             </div>
-            <p style="color: #888; font-size: 14px;">Dashboard features: Real-time status, photo confirmations, calendar sync, automated reminders, and billing history.</p>
-        </div>
-    </section>
-    
-    <section class="section">
-        <h2>What Hosts Say</h2>
-        <div class="testimonials">
-            <div class="testimonial">
-                <div class="stars">★★★★★</div>
-                <p>"Sparkling Solutions has been a game-changer for my Airbnb business. Cleanings are always perfect, and the photo confirmations give me peace of mind."</p>
-                <div class="author">— Sarah M., 12-property host</div>
+        </section>
+
+        <!-- Services -->
+        <section id="services" style="margin-top: var(--space-3xl);">
+            <h2 class="section-title">Our Services</h2>
+            
+            <div class="cards">
+                <div class="service-card">
+                    <h3>🧹 Standard Clean</h3>
+                    <p>Complete turnover cleaning between guests. Includes all rooms, bathrooms, and kitchen.</p>
+                </div>
+                
+                <div class="service-card">
+                    <h3>🧽 Deep Clean</h3>
+                    <p>Thorough deep cleaning for monthly maintenance or after long stays. Every detail covered.</p>
+                </div>
+                
+                <div class="service-card">
+                    <h3>🪟 Move-In/Move-Out</h3>
+                    <p>Complete clean from top to bottom. Ready for new guests or property handovers.</p>
+                </div>
+                
+                <div class="service-card">
+                    <h3>🛋️ Amenity Restock</h3>
+                    <p>Restock toiletries, towels, and essentials. Guest-ready packages available.</p>
+                </div>
             </div>
-            <div class="testimonial">
-                <div class="stars">★★★★★</div>
-                <p>"Finally found a cleaning service that understands vacation rentals. Fast, reliable, and my guest reviews about cleanliness have gone up significantly."</p>
-                <div class="author">— David K., 8-property host</div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section" style="margin-top: var(--space-3xl);">
+            <h2>Ready to Get Started?</h2>
+            <p>Book your first cleaning today and see the Sparkling difference.</p>
+            <div class="links" style="justify-content: center;">
+                <a href="/calendar-secure.html" class="btn" style="background: white; color: var(--accent);">📅 Book Now</a>
+                <a href="tel:+1234567890" class="btn" style="background: transparent; border: 2px solid white; color: white;">📞 Call Us</a>
             </div>
-            <div class="testimonial">
-                <div class="stars">★★★★★</div>
-                <p>"The dashboard alone is worth it. I know exactly when my properties are being cleaned, and the photo confirmations are amazing."</p>
-                <div class="author">— Jessica R., 5-property host</div>
-            </div>
-        </div>
-    </section>
-    
-    <section class="contact" id="contact">
-        <h2>Ready to Get Started?</h2>
-        <p>Get your free quote today. Tell us about your properties and we'll create a custom cleaning plan.</p>
-        <form class="contact-form">
-            <input type="text" placeholder="Your Name" required>
-            <input type="email" placeholder="Email Address" required>
-            <input type="tel" placeholder="Phone Number">
-            <select required>
-                <option value="">Number of Properties</option>
-                <option value="1">1 property</option>
-                <option value="2-5">2-5 properties</option>
-                <option value="5-10">5-10 properties</option>
-                <option value="10+">10+ properties</option>
-            </select>
-            <textarea placeholder="Tell us about your cleaning needs (property types, frequency, special requirements)..."></textarea>
-            <button type="submit">Get Free Quote</button>
-        </form>
-    </section>
-    
+        </section>
+    </main>
+
+    <!-- Footer -->
     <footer>
-        <p>✨ Sparkling Solutions — Airbnb Cleaning Specialists</p>
-        <p style="margin-top: 10px; color: #555; font-size: 14px;">Professional turnover cleaning for vacation rental hosts</p>
+        <div class="container">
+            <p>✨ Sparkling Solutions | Airbnb Cleaning Specialists</p>
+            <p style="margin-top: var(--space-sm); font-size: 0.875rem;">
+                Part of the <a href="https://b3rt.dev">Life OS</a> ecosystem
+            </p>
+        </div>
     </footer>
 </body>
 </html>

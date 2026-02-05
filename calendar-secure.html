@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Sparkling Solutions - Secure Calendar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            min-height: 100vh;
+        }
+        
+        /* Login Screen */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .login-box {
+            background: #1a1a25;
+            padding: 3rem;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+        .login-box h1 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        .login-box p {
+            color: #888;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #888;
+            font-size: 0.875rem;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            background: #0a0a0f;
+            border: 1px solid #252530;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #252530;
+            margin-top: 1rem;
+        }
+        .error {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            min-height: 100vh;
+        }
+        .dashboard.active {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: #12121a;
+            padding: 2rem;
+            border-right: 1px solid #252530;
+        }
+        .sidebar h2 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .nav-item {
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .nav-item:hover, .nav-item.active {
+            background: #1a1a25;
+            color: #fff;
+        }
+        .user-info {
+            margin-top: auto;
+            padding-top: 2rem;
+            border-top: 1px solid #252530;
+        }
+        .user-info .name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .user-info .role {
+            color: #888;
+            font-size: 0.875rem;
+            text-transform: capitalize;
+        }
+        
+        /* Main Content */
+        .main {
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .header h1 {
+            font-size: 2rem;
+        }
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 0.875rem;
+        }
+        .btn-success {
+            background: #22c55e;
+        }
+        .btn-danger {
+            background: #ef4444;
+        }
+        
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: #1a1a25;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #252530;
+        }
+        .stat-card h3 {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        .stat-card p {
+            color: #888;
+            font-size: 0.875rem;
+        }
+        
+        /* Calendar */
+        .calendar-container {
+            background: #1a1a25;
+            border-radius: 12px;
+            border: 1px solid #252530;
+            padding: 1.5rem;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .calendar-nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .calendar-nav button {
+            background: #252530;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+        }
+        .calendar-nav button:hover {
+            background: #667eea;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+        .day-header {
+            text-align: center;
+            color: #888;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.5rem;
+        }
+        .day-cell {
+            aspect-ratio: 1;
+            background: #0a0a0f;
+            border-radius: 8px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            min-height: 80px;
+        }
+        .day-cell:hover {
+            transform: scale(1.02);
+            background: #15151a;
+        }
+        .day-cell.today {
+            border: 2px solid #667eea;
+        }
+        .day-cell.other-month {
+            opacity: 0.3;
+        }
+        .day-number {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .booking-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 2px;
+        }
+        .booking-dot.checkin {
+            background: #22c55e;
+        }
+        .booking-dot.checkout {
+            background: #ef4444;
+        }
+        .booking-dot.pending {
+            background: #f59e0b;
+        }
+        
+        /* Bookings List */
+        .bookings-section {
+            margin-top: 2rem;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .booking-card {
+            background: #1a1a25;
+            border: 1px solid #252530;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .booking-info h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        .booking-info p {
+            color: #888;
+            font-size: 0.875rem;
+        }
+        .booking-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-pending {
+            background: #3d3d1a;
+            color: #f59e0b;
+        }
+        .status-confirmed {
+            background: #1a3d1a;
+            color: #22c55e;
+        }
+        .status-completed {
+            background: #252530;
+            color: #888;
+        }
+        .booking-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .booking-actions button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+        .btn-confirm {
+            background: #22c55e;
+            color: #fff;
+        }
+        .btn-cancel {
+            background: #ef4444;
+            color: #fff;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: #1a1a25;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .modal-header h2 {
+            color: #667eea;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .modal-footer .btn {
+            flex: 1;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard.active {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                display: none;
+            }
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .calendar-grid {
+                font-size: 0.75rem;
+            }
+            .day-cell {
+                min-height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginScreen">
+        <div class="login-box">
+            <h1>✨ Sparkling Solutions</h1>
+            <p>Secure Calendar Access</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="host@sparklingsolutions.biz" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="btn">🔐 Sign In</button>
+                <p class="error" id="loginError"></p>
+            </form>
+            <button class="btn btn-secondary" onclick="demoLogin('host')">Demo Host</button>
+            <button class="btn btn-secondary" onclick="demoLogin('cleaner')">Demo Cleaner</button>
+        </div>
+    </div>
+    
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <aside class="sidebar">
+            <h2>✨ Calendar</h2>
+            <div class="nav-item active" onclick="showSection('calendar')">📅 Calendar</div>
+            <div class="nav-item" onclick="showSection('bookings')">📋 Bookings</div>
+            <div class="nav-item" onclick="showSection('properties')">🏠 Properties</div>
+            <div class="nav-item" onclick="showSection('analytics')">📊 Analytics</div>
+            
+            <div class="user-info">
+                <div class="name" id="userName">User Name</div>
+                <div class="role" id="userRole">Role</div>
+                <button class="btn btn-secondary btn-small" onclick="logout()" style="margin-top: 1rem;">🚪 Sign Out</button>
+            </div>
+        </aside>
+        
+        <main class="main">
+            <!-- Calendar Section -->
+            <div id="calendarSection">
+                <div class="header">
+                    <h1>📅 Calendar</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-small btn-success" onclick="openBookingModal()">+ New Booking</button>
+                    </div>
+                </div>
+                
+                <div class="stats" id="statsContainer">
+                    <!-- Stats populated by JS -->
+                </div>
+                
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <h2 id="calendarMonth">February 2026</h2>
+                        <div class="calendar-nav">
+                            <button onclick="changeMonth(-1)">← Prev</button>
+                            <button onclick="goToToday()">Today</button>
+                            <button onclick="changeMonth(1)">Next →</button>
+                        </div>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendar populated by JS -->
+                    </div>
+                </div>
+                
+                <div class="bookings-section">
+                    <div class="section-header">
+                        <h3>📋 Upcoming Bookings</h3>
+                    </div>
+                    <div id="bookingsList">
+                        <!-- Bookings populated by JS -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bookings Section -->
+            <div id="bookingsSection" style="display: none;">
+                <div class="header">
+                    <h1>📋 All Bookings</h1>
+                </div>
+                <div id="allBookingsList">
+                    <!-- All bookings populated by JS -->
+                </div>
+            </div>
+            
+            <!-- Properties Section -->
+            <div id="propertiesSection" style="display: none;">
+                <div class="header">
+                    <h1>🏠 Properties</h1>
+                </div>
+                <div id="propertiesList">
+                    <!-- Properties populated by JS -->
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Booking Modal -->
+    <div class="modal" id="bookingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📅 New Booking</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="bookingForm">
+                <div class="form-group">
+                    <label>Property</label>
+                    <select id="bookingProperty" required>
+                        <!-- Options populated by JS -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Check-in Date</label>
+                    <input type="date" id="checkIn" required>
+                </div>
+                <div class="form-group">
+                    <label>Check-out Date</label>
+                    <input type="date" id="checkOut" required>
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <input type="text" id="bookingNotes" placeholder="Special instructions...">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn">Create Booking</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // API Configuration
+        const API_URL = 'calendar-api.py';
+        let currentUser = null;
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let calendarData = null;
+        
+        // Demo credentials
+        const DEMO_CREDENTIALS = {
+            host: { email: 'host@sparklingsolutions.biz', password: 'host123' },
+            cleaner: { email: 'cleaner@sparklingsolutions.biz', password: 'cleaner123' }
+        };
+        
+        // Login functions
+        async function login(email, password) {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'login', email, password })
+                });
+                const data = await response.json();
+                
+                if (data.token) {
+                    currentUser = data;
+                    document.getElementById('loginScreen').style.display = 'none';
+                    document.getElementById('dashboard').classList.add('active');
+                    document.getElementById('userName').textContent = data.name;
+                    document.getElementById('userRole').textContent = data.role;
+                    loadDashboard();
+                } else {
+                    document.getElementById('loginError').textContent = 'Invalid credentials';
+                }
+            } catch (error) {
+                // For demo, use mock data
+                currentUser = { name: email.split('@')[0], role: 'host', token: 'demo' };
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('dashboard').classList.add('active');
+                document.getElementById('userName').textContent = currentUser.name;
+                document.getElementById('userRole').textContent = currentUser.role;
+                loadDashboard();
+            }
+        }
+        
+        function demoLogin(role) {
+            const creds = DEMO_CREDENTIALS[role];
+            login(creds.email, creds.password);
+        }
+        
+        function logout() {
+            currentUser = null;
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('dashboard').classList.remove('active');
+        }
+        
+        // Load dashboard data
+        async function loadDashboard() {
+            // Generate mock data for demo
+            const today = new Date();
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                               'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            calendarData = {
+                stats: {
+                    upcoming: 5,
+                    pending: 2,
+                    completed: 12,
+                    total_properties: 3
+                },
+                bookings: [
+                    {
+                        id: '1',
+                        property: 'Sunset Beach Villa',
+                        check_in: formatDate(addDays(today, 1)),
+                        check_out: formatDate(addDays(today, 2)),
+                        status: 'confirmed',
+                        confirmed: true
+                    },
+                    {
+                        id: '2',
+                        property: 'Downtown Loft',
+                        check_in: formatDate(addDays(today, 3)),
+                        check_out: formatDate(addDays(today, 4)),
+                        status: 'pending',
+                        confirmed: false
+                    },
+                    {
+                        id: '3',
+                        property: 'Garden Retreat',
+                        check_in: formatDate(addDays(today, 5)),
+                        check_out: formatDate(addDays(today, 6)),
+                        status: 'confirmed',
+                        confirmed: true
+                    }
+                ],
+                properties: [
+                    { id: '1', name: 'Sunset Beach Villa', address: '123 Ocean View Drive' },
+                    { id: '2', name: 'Downtown Loft', address: '456 City Center' },
+                    { id: '3', name: 'Garden Retreat', address: '789 Green Lane' }
+                ]
+            };
+            
+            renderStats();
+            renderCalendar();
+            renderBookings();
+            renderProperties();
+        }
+        
+        // Render functions
+        function renderStats() {
+            const stats = calendarData.stats;
+            document.getElementById('statsContainer').innerHTML = `
+                <div class="stat-card">
+                    <h3>${stats.upcoming}</h3>
+                    <p>Upcoming Cleanings</p>
+                </div>
+                <div class="stat-card">
+                    <h3>${stats.pending}</h3>
+                    <p>Pending Confirmation</p>
+                </div>
+                <div class="stat-card">
+                    <h3>${stats.completed}</h3>
+                    <p>Completed This Month</p>
+                </div>
+                <div class="stat-card">
+                    <h3>${stats.total_properties}</h3>
+                    <p>Properties Managed</p>
+                </div>
+            `;
+        }
+        
+        function renderCalendar() {
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                               'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            document.getElementById('calendarMonth').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+            
+            // Day headers
+            ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].forEach(day => {
+                grid.innerHTML += `<div class="day-header">${day}</div>`;
+            });
+            
+            // Get first day of month and total days
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
+            
+            // Previous month days
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = daysInPrevMonth - i;
+                grid.innerHTML += `<div class="day-cell other-month"><div class="day-number">${day}</div></div>`;
+            }
+            
+            // Current month days
+            const today = new Date();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const isToday = today.getDate() === day && today.getMonth() === currentMonth && today.getFullYear() === currentYear;
+                
+                // Check for bookings
+                const dayBookings = calendarData.bookings.filter(b => b.check_in === date || b.check_out === date);
+                let dots = '';
+                dayBookings.forEach(b => {
+                    if (b.check_in === date) dots += '<span class="booking-dot checkin"></span>';
+                    if (b.check_out === date) dots += '<span class="booking-dot checkout"></span>';
+                });
+                
+                grid.innerHTML += `
+                    <div class="day-cell ${isToday ? 'today' : ''}" onclick="showDayBookings('${date}')">
+                        <div class="day-number">${day}</div>
+                        ${dots}
+                    </div>
+                `;
+            }
+            
+            // Next month days
+            const remaining = 42 - (firstDay + daysInMonth);
+            for (let day = 1; day <= remaining; day++) {
+                grid.innerHTML += `<div class="day-cell other-month"><div class="day-number">${day}</div></div>`;
+            }
+        }
+        
+        function renderBookings() {
+            const list = document.getElementById('bookingsList');
+            list.innerHTML = calendarData.bookings.map(booking => `
+                <div class="booking-card">
+                    <div class="booking-info">
+                        <h4>🏠 ${booking.property}</h4>
+                        <p>📅 ${booking.check_in} → ${booking.check_out}</p>
+                    </div>
+                    <div class="booking-actions">
+                        <span class="booking-status status-${booking.status}">${booking.status}</span>
+                        ${!booking.confirmed ? `<button class="btn-confirm" onclick="confirmBooking('${booking.id}')">Confirm</button>` : ''}
+                        <button class="btn-cancel" onclick="cancelBooking('${booking.id}')">Cancel</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function renderProperties() {
+            const list = document.getElementById('propertiesList');
+            list.innerHTML = calendarData.properties.map(prop => `
+                <div class="booking-card">
+                    <div class="booking-info">
+                        <h4>🏠 ${prop.name}</h4>
+                        <p>📍 ${prop.address}</p>
+                    </div>
+                    <div class="booking-actions">
+                        <button class="btn-small btn-success" onclick="openBookingModal('${prop.id}')">Book</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Populate property select in modal
+            const select = document.getElementById('bookingProperty');
+            select.innerHTML = calendarData.properties.map(p =>
+                `<option value="${p.id}">${p.name}</option>`
+            ).join('');
+        }
+        
+        // Navigation
+        function showSection(section) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('calendarSection').style.display = section === 'calendar' ? 'block' : 'none';
+            document.getElementById('bookingsSection').style.display = section === 'bookings' ? 'block' : 'none';
+            document.getElementById('propertiesSection').style.display = section === 'properties' ? 'block' : 'none';
+        }
+        
+        // Calendar navigation
+        function changeMonth(delta) {
+            currentMonth += delta;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        }
+        
+        function goToToday() {
+            currentMonth = new Date().getMonth();
+            currentYear = new Date().getFullYear();
+            renderCalendar();
+        }
+        
+        // Modal functions
+        function openBookingModal(propertyId = null) {
+            document.getElementById('bookingModal').classList.add('active');
+            document.getElementById('checkIn').value = formatDate(new Date());
+            document.getElementById('checkOut').value = formatDate(addDays(new Date(), 1));
+            if (propertyId) {
+                document.getElementById('bookingProperty').value = propertyId;
+            }
+        }
+        
+        function closeModal() {
+            document.getElementById('bookingModal').classList.remove('active');
+        }
+        
+        // Booking actions
+        function confirmBooking(id) {
+            const booking = calendarData.bookings.find(b => b.id === id);
+            if (booking) {
+                booking.confirmed = true;
+                booking.status = 'confirmed';
+                renderBookings();
+                renderCalendar();
+            }
+        }
+        
+        function cancelBooking(id) {
+            calendarData.bookings = calendarData.bookings.filter(b => b.id !== id);
+            renderBookings();
+            renderCalendar();
+        }
+        
+        function showDayBookings(date) {
+            const dayBookings = calendarData.bookings.filter(b => b.check_in === date || b.check_out === date);
+            if (dayBookings.length > 0) {
+                alert(`Bookings for ${date}:\n${dayBookings.map(b => `- ${b.property}: ${b.check_in} → ${b.check_out}`).join('\n')}`);
+            }
+        }
+        
+        // Form handlers
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            login(document.getElementById('email').value, document.getElementById('password').value);
+        });
+        
+        document.getElementById('bookingForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const property = calendarData.properties.find(p => p.id === document.getElementById('bookingProperty').value);
+            const newBooking = {
+                id: String(calendarData.bookings.length + 1),
+                property: property.name,
+                check_in: document.getElementById('checkIn').value,
+                check_out: document.getElementById('checkOut').value,
+                status: 'pending',
+                confirmed: false
+            };
+            calendarData.bookings.push(newBooking);
+            closeModal();
+            renderBookings();
+            renderCalendar();
+        });
+        
+        // Utility functions
+        function formatDate(date) {
+            return date.toISOString().split('T')[0];
+        }
+        
+        function addDays(date, days) {
+            const result = new Date(date);
+            result.setDate(result.getDate() + days);
+            return result;
+        }
+    </script>
+</body>
+</html>
